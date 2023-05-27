@@ -6,7 +6,7 @@
 /*   By: bmoudach <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:46:52 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/05/26 16:18:30 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/05/27 13:51:11 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include"get_next_line.h"
@@ -59,11 +59,11 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 	return (ft_strlen(src));
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(const char *s1, const char *s2)
 {
-	char		*str;
 	int			len;
 	int			len_s1;
+	char		*str;
 
 	if (!s1 || !s2)
 		return (NULL);
@@ -76,4 +76,17 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	ft_strlcat(str, s2, len + 1);
 	str[len] = '\0';
 	return (str);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	while (*s != '\0')
+	{
+		if (*s == (char)c)
+			return ((char *)s);
+		s++;
+	}
+	if (*s == (char)c)
+		return ((char *)s);
+	return (0);
 }
