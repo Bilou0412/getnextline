@@ -6,7 +6,7 @@
 /*   By: bmoudach <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 12:41:14 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/05/30 15:51:18 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/05/30 16:42:14 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include"get_next_line.h"
@@ -43,9 +43,11 @@ void	ft_mouv(char *buf)
 
 char	*get_next_line(int fd)
 {
-	static char	buf[BUFFER_SIZE + 1] = "\0";
+	static char	buf[BUFFER_SIZE + 1];
 	char		*line;
+	int			byte;
 
+	byte = 0;
 	if (fd <= 0)
 		return (NULL);
 	line = ft_strdup(buf);
@@ -53,9 +55,10 @@ char	*get_next_line(int fd)
 		return (NULL);
 	while (!ft_strchr(line, '\n'))
 	{
-		buf[read(fd, buf, BUFFER_SIZE)] = '\0';
-		if (!buf[0])
-			return (NULL);
+		byte = read(fd, buf, BUFFER_SIZE);
+		if (byte <= 0)
+			return (free(line), NULL);
+		buf[byte] = '\0';
 		line = ft_strjoin(line, buf);
 		if (!line)
 			return (NULL);
