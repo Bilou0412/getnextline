@@ -6,7 +6,7 @@
 /*   By: bmoudach <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 13:46:52 by bmoudach          #+#    #+#             */
-/*   Updated: 2023/05/30 14:39:50 by bmoudach         ###   ########.fr       */
+/*   Updated: 2023/05/31 22:57:38 by bmoudach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include"get_next_line.h"
@@ -21,6 +21,24 @@ size_t	ft_strlen(const char *str)
 	while (*str++)
 		i++;
 	return (i);
+}
+
+char	*ft_strdup(char *src)
+{
+	char	*buff;
+	int		i;
+
+	i = 0;
+	buff = malloc(ft_strlen(src) * sizeof(char) + 1);
+	if (!buff)
+		return (0);
+	while (src[i] != '\0')
+	{
+		buff[i] = src[i];
+		i++;
+	}
+	buff[i] = '\0';
+	return (buff);
 }
 
 size_t	ft_strlcat(char *dst, const char *src, size_t n)
@@ -63,31 +81,22 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 
 char	*ft_strjoin(char *s1, char *s2)
 {
-	int			len;
-	int			len_s1;
-	char		*str;
+	char	*str;
+	int		size;
 
-	len = ft_strlen(s1) + ft_strlen(s2);
-	len_s1 = ft_strlen(s1);
-	str = malloc((len + 1) * sizeof(char));
-	if (!str)
-		return (NULL);
-	ft_strlcpy(str, s1, len_s1 + 1);
-	ft_strlcat(str, s2, len + 1);
-	str[len] = '\0';
-	free(s1);
-	return (str);
-}
-
-char	*ft_strchr(const char *s, int c)
-{
-	while (*s != '\0')
+	if (!s1 && s2)
+		return (ft_strdup(s2));
+	else if (s1 && !s2)
+		return (ft_strdup(s1));
+	else
 	{
-		if (*s == (char)c)
-			return ((char *)s);
-		s++;
+		size = ft_strlen(s1) + ft_strlen(s2);
+		str = malloc((size + 1) * sizeof(char));
+		if (!str)
+			return (NULL);
+		ft_strlcpy(str, s1, ft_strlen(s1) + 1);
+		ft_strlcat(str, s2, size + 1);
+		free(s1);
 	}
-	if (*s == (char)c)
-		return ((char *)s);
-	return (0);
+	return (str);
 }
